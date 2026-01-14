@@ -1,0 +1,20 @@
+@media only screen and (min-width:600px) {
+
+
+    .find{
+        position: relative;
+    }
+
+    .score--text{
+        position: absolute;
+        top: $txtmob;
+        left: $txtmob;
+        color: $c-text;
+        z-index: 2000;
+        background-color: $c-bg;
+        padding: 10px;
+        border: 2px solid $c-colorun;
+        border-radius: 48px;
+
+    }
+}

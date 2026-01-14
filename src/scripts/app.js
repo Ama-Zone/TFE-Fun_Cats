@@ -169,15 +169,6 @@ gsap.fromTo(".Jeux__02", {
 }
 
 
-
-////////GAME/////////////
-
-
-///PUZZLE PHASER
-
-
-
-
 /////new version slider avec transition au noir
 // --- Slider Game ---
 const sliders = document.querySelectorAll(".slider");
@@ -439,7 +430,108 @@ let puzzle = document.querySelector("#puzzle-container");
 
 if  ((puzzle)) {
 
-  ///PUZZLE PHASER
+  const palette = document.querySelector(".palette");
+const pieces = document.querySelectorAll(".palette .piece");
+const activePieceZone = document.querySelector(".piece__active");
+const openPaletteBtn = document.getElementById("palette__open");
+
+let currentPiece = null;
+
+// -------------------------
+// Sélection d’une pièce
+pieces.forEach(piece => {
+  piece.addEventListener("click", () => {
+    selectPiece(piece);
+  });
+});
+
+function selectPiece(piece) {
+  // S'il y a déjà une pièce active → retour palette
+  if (currentPiece) {
+    resetCurrentPiece();
+  }
+
+  // Nouvelle pièce active
+  currentPiece = piece;
+
+  // On clone la pièce pour la zone active
+  const clone = piece.cloneNode(true);
+  clone.classList.add("piece__active");
+
+  activePieceZone.appendChild(clone);
+  enableDrag(clone);
+
+
+  // On cache la palette
+  closePalette();
+}
+
+/////rendre la pièce draggabl
+function enableDrag(piece) {
+  gsap.set(piece, { x: 0, y: 0 });
+
+  Draggable.create(piece, {
+    type: "x,y",
+    edgeResistance: 0.65,
+    bounds: ".game-viewport",
+    onDragEnd: () => {
+      checkSnap(piece);
+    }
+  });
+}
+
+// -------------------------
+// Réinitialiser la pièce active
+function resetCurrentPiece() {
+  activePieceZone.innerHTML = "";
+  currentPiece = null;
+}
+
+// -------------------------
+// Palette open / close
+  let paletteAnimating = false;
+
+function closePalette() {
+  if (paletteAnimating) return;
+  paletteAnimating = true;
+
+  gsap.to(palette, {
+    y: "110%",
+    duration: 0.5,
+    ease: "power3.inOut",
+    onComplete: () => {
+      paletteAnimating = false;
+      palette.classList.add("palette__closed");
+    }
+  });
+}
+
+function openPalette() {
+  if (paletteAnimating) return;
+  paletteAnimating = true;
+
+  palette.classList.remove("palette__closed");
+
+  gsap.fromTo(
+    palette,
+    { y: "110%" },
+    {
+      y: "0%",
+      duration: 0.5,
+      ease: "power3.inOut",
+      onComplete: () => {
+        paletteAnimating = false;
+      }
+    }
+  );
+}
+    
+ openPaletteBtn.addEventListener("click", openPalette);
+
+
+
+
+  /*//PUZZLE PHASER
   function create() {
   const { width, height } = this.scale;
 
@@ -479,7 +571,7 @@ if  ((puzzle)) {
   });
 
   // =========================
-  // 4️⃣ Snap au bon endroit
+  //  Snap au bon endroit
   // =========================
   this.input.on("dragend", (pointer, gameObject) => {
     const dist = Phaser.Math.Distance.Between(
@@ -501,105 +593,115 @@ if  ((puzzle)) {
     }
   });
 }
+*/
 
 }
 
 const miamPoup = document.querySelector("#miamPoup-container");
 
 if (miamPoup) {
+function initMiamGame(containerId, characterKey) {
+  const container = document.querySelector(containerId);
+  if (!container) return;
+
   class Start extends Phaser.Scene {
     constructor() {
       super('Start');
     }
 
     preload() {
-      this.load.image('background', 'assets/images/CuisineV2.png');
-      this.load.image('corentin', 'assets/images/Poupee.png');
-      this.load.image('corentin-happy', 'assets/corentin-happy2.png');
-      this.load.image('corentin-triste', 'assets/coco-triste.png');
       this.load.image('bonbon', 'assets/images/bonbon.png');
+
+      this.load.image('poupee', 'assets/images/Poupee.png');
+      this.load.image('poupee-happy', 'assets/images/Poupee-happy.png');
+      this.load.image('poupee-triste', 'assets/images/Poupee-triste.png');
+
+      this.load.image('mimi', 'assets/images/Kimi.png');
+      this.load.image('mimi-happy', 'assets/images/mimi-happy.png');
+      this.load.image('mimi-triste', 'assets/images/mimi-triste.png');
     }
 
     create() {
-    const { width, height } = this.scale;
+      const { width, height } = this.scale;
+      this.characterKey = characterKey;
 
-    // Personnage principal
-    this.corentin = this.physics.add.image(100, height - 120, 'corentin')
-      .setScale(0.4)
-      .setCollideWorldBounds(true);
-    this.corentin.body.setCircle(120);
+      this.character = this.physics.add.image(
+        width * 0.15,
+        height - 120,
+        this.characterKey
+      )
+        .setScale(0.4)
+        .setCollideWorldBounds(true);
 
-    // Drag horizontal
-    this.corentin.setInteractive({ draggable: true });
-    this.input.on('drag', (pointer, obj, dragX) => obj.setX(dragX));
+      this.character.body.setCircle(120);
 
-    // Génération du bonbon
-    this.spawnBonbon();
+      this.character.setInteractive({ draggable: true });
+      this.input.on('drag', (pointer, obj, dragX) => obj.setX(dragX));
 
-    // Collision bonbon / corentin
-    this.physics.add.overlap(
-      this.corentin,
-      this.bonbon,
-      this.eatBonbon,
-      null,
-      this
-    );
+      this.spawnBonbon();
 
-    // Score
-    this.score = 0;
-    this.scoreText = document.querySelector('.score--text');
+      this.physics.add.overlap(
+        this.character,
+        this.bonbon,
+        this.eatBonbon,
+        null,
+        this
+      );
+
+      this.score = 0;
+      this.scoreText = container.querySelector('#score');
+      if (this.scoreText) this.scoreText.textContent = '0/10';
+
+      // 🔹 Choix de la div de victoire selon le personnage
+      if (this.characterKey === 'poupee') {
+        this.winDialog = document.querySelector('.dialogue__game');
+      } else if (this.characterKey === 'mimi') {
+        this.winDialog = document.querySelector('.dialogue__game--mimi');
+      }
+
+      this.winShown = false;
     }
 
-
     update() {
-      // Vérifie si le bonbon est hors écran
       if (this.bonbon.y > this.scale.height + 50) {
         this.missBonbon();
       }
     }
 
-
     spawnBonbon() {
       const { width } = this.scale;
-
       this.bonbon = this.physics.add.image(
         Phaser.Math.Between(50, width - 50),
         -50,
         'bonbon'
       );
-
       this.resetBonbon();
     }
 
     resetBonbon() {
       const { width } = this.scale;
-
       this.bonbon.setPosition(
         Phaser.Math.Between(50, width - 50),
         -50
       );
-
       this.bonbon.setScale(Phaser.Math.Between(3, 4) / 20);
-      this.bonbon.setVelocity(0, Phaser.Math.Between(100, 200));
+      this.bonbon.setVelocity(0, Phaser.Math.Between(120, 220));
     }
 
     eatBonbon() {
       this.score++;
-      if (this.scoreText) {
-        this.scoreText.textContent = `${this.score}/10`;
-      }
+      if (this.scoreText) this.scoreText.textContent = `${this.score}/10`;
 
-      this.corentin.setTexture('corentin-happy');
+      this.character.setTexture(`${this.characterKey}-happy`);
       this.time.delayedCall(300, () => {
-        this.corentin.setTexture('corentin');
+        this.character.setTexture(this.characterKey);
       });
 
-      if (this.score === 10) {
+      // 🎉 Affiche la bonne div de victoire
+      if (this.score === 10 && this.winDialog && !this.winShown) {
         this.scene.pause();
-        const div = document.querySelector('.dialogue__game'); 
-      if (div) {
-        div.classList.remove('hidden'); // supprime la classe pour la rendre visible
-    }
+        this.winDialog.classList.remove('hidden');
+        this.winShown = true;
         return;
       }
 
@@ -607,9 +709,9 @@ if (miamPoup) {
     }
 
     missBonbon() {
-      this.corentin.setTexture('corentin-triste');
+      this.character.setTexture(`${this.characterKey}-triste`);
       this.time.delayedCall(300, () => {
-        this.corentin.setTexture('corentin');
+        this.character.setTexture(this.characterKey);
       });
       this.resetBonbon();
     }
@@ -617,8 +719,8 @@ if (miamPoup) {
 
   const config = {
     type: Phaser.AUTO,
-    parent: 'miamPoup-container',
-    backgroundColor: '#ffc5de',
+    parent: containerId.replace('#', ''),
+    backgroundColor: 'transparent',
     physics: {
       default: 'arcade',
       arcade: { gravity: { y: 0 } }
@@ -629,11 +731,17 @@ if (miamPoup) {
       width: 1280,
       height: 720
     },
-     transparent: true,
+    transparent: true,
     scene: [Start]
   };
 
   new Phaser.Game(config);
+}
+
+initMiamGame('#miamPoup-container', 'poupee');
+initMiamGame('#miamMimi-container', 'mimi');
+
+
 }
 
 

@@ -26,20 +26,19 @@
 
 @media only screen and (min-width:600px) {
 
-    .find{
-        position: relative;
-    }
+
+   
 
     .loader {
         position: fixed;
         inset: 0;
-        /* top:0; right:0; bottom:0; left:0 */
+       
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 9999;
         flex-direction: column;
-        overflow: hidden; // ✅ ajouté pour que le ::after reste bien dans le loader
+        overflow: hidden; 
 
         ///////
         background-image: linear-gradient(rgba(41, 36, 37, 0.8), rgba(41, 36, 37, 0.8)), url('../assets/images/illu-vegev2.png');
@@ -57,22 +56,22 @@
         }
         
 
-        &::after {              // ✅ ajouté
+        &::after {              
             content: "";
             position: absolute;
             inset: 0;
-            background: $c-bg2;           // noir plein
-            opacity: 0;                 // invisible au départ
+            background: $c-bg2;         
+            opacity: 0;                 
             transition: opacity 1s ease; 
-            z-index: 10000;             // au-dessus du contenu du loader
+            z-index: 10000;             
         }
 
 
-        &.fade-out {            // ✅ ajouté
-            pointer-events: none;       // désactive les clics pendant la transition
+        &.fade-out {           
+            pointer-events: none;       
 
-                &::after {     // ✅ ajouté
-                    opacity: 1;                 // devient noir en fondu
+                &::after {     
+                    opacity: 1;                 
                 }
 
             }
@@ -278,19 +277,9 @@
         }
 
 
-            img, video {
-                max-width: 100%;
-                height: auto;
-                display: block;
-            }
+           
 
-            .score--text{
-                position: absolute;
-                bottom: 50px;
-                left: 50px;
-                color: $c-bg2;
-                z-index: 2000;
-            }
+            
 
     }
 

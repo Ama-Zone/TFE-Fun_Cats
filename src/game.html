@@ -34,7 +34,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script> 
   <script src="scripts/app.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
-  
+  <script src="https://unpkg.com/gsap@3/dist/Draggable.min.js"></script>
+
   <link rel="icon" type="image/png" href="assets/images/LOGOv5.png">
 
 
@@ -67,6 +68,7 @@
         <div class="btn dialogue__btn test">
                     <button data-tab="Game05" class="btn__slider slider__js">puzzel&#8239;!</button>
                     <button data-tab="Game04" class="btn__slider slider__js">miam poup&#8239;!</button>
+                    <button data-tab="Game08" class="btn__slider slider__js">miam Mimi&#8239;!</button>
                 </div>
         <div class="anecd__filter">
             <div class="anecd">
@@ -345,10 +347,10 @@
         <div class="btn dialogue__btn test">
                     <button data-tab="dial07" class="btn__slider slider__js">Allons-y&#8239;!</button>
                     
-                </div>
+        </div>
         <h2 class="hidden">game</h2>
          <div id="miamPoup-container" class="find">
-            <div class="score--text">0/20</div>
+            <div class="score--text"><p id="score">0&#8239;/&#8239;10</p></div>
         </div>
         
        <div class="indice">
@@ -362,8 +364,8 @@
         <div class="dialogue dialogue__game hidden">
             <div class="dialogue__text">
                 <p>Poupée est très contente d'avoir mangé ses bonbons&#8239;! Et une anecdote en récompense pour toi&#8239;!!!</p>
-                <div class="btn dialogue__btn">
-                    <button data-tab="dial07" class="btn__slider slider__js">Attrapons-la&#8239;!</button>
+                <div class=" fleche ">
+                    <button data-tab="dial07" class="fleche__btn btn__slider slider__js"><span class="hidden">rassemblon les morceaux&#8239;!</span></button>
                 </div>
             </div>
         </div>
@@ -403,7 +405,7 @@
         </div>
     </section>
 
-<section id="Game05" class="slider__switch slider--hidden hidden find__fond game-viewport">
+<section id="Game05" class="slider__switch slider--hidden hidden dialogue__fond dialogue__fond--poupKimi game-viewport">
 
     <div class="btn dialogue__btn test">
         <button data-tab="puzzel" class="btn__slider slider__js">
@@ -413,23 +415,33 @@
 
     <h2 class="hidden">game</h2>
 
-    <!-- 👇 FENÊTRE -->
     <div id="puzzle-container" class="find game-world">
 
-        <!-- 🧩 PLATEAU -->
+    
+       <!-- PIÈCE ACTIVE -->
+        <div class="piece__active"></div>
+
         <div class="puzzle">
             <div class="slot" data-slot="1"></div>
             <div class="slot" data-slot="2"></div>
             <div class="slot" data-slot="3"></div>
+            <div class="slot" data-slot="4"></div>
+            <div class="slot" data-slot="5"></div>
+            <div class="slot" data-slot="6"></div>
         </div>
 
-        <!-- 🧩 PIÈCES -->
-        <div class="pieces">
-            <img src="piece1.svg" class="piece" data-piece="1">
-            <img src="piece2.svg" class="piece" data-piece="2">
+        <!-- PALETTE -->
+        <div class="palette palette__anime palette__open dialogue">
+            <img class="piece palette__img" src="assets/images/svg/Poupee05.svg"  data-piece="1">
+            <img class="piece palette__img" src="assets/images/svg/Kimi07.svg"  data-piece="2">
             <img src="piece3.svg" class="piece" data-piece="3">
+            <img src="piece4.svg" class="piece" data-piece="4">
+            <img src="piece5.svg" class="piece" data-piece="5">
+            <img src="piece6.svg" class="piece" data-piece="6">
         </div>
-
+        <div class="btn">
+            <button id="palette__open" class="btn__palette">Changer de pièce</button>
+        </div>
     </div>
 
     <div class="indice">
@@ -617,25 +629,36 @@
             <div class="dialogue__text">
                 <p>Après cette anecdotes, on peu donner la recompence de Mimi pour être rentrée!!</p>
                 <div class="btn dialogue__btn">
-                    <button data-tab="content31" class="btn__slider slider__js">Nourrissons-là&#8239;!</button>
+                    <button data-tab="Game08" class="btn__slider slider__js">Nourrissons-là&#8239;!</button>
                 </div>
             </div>
         </div>
     </section>
 
 
-    <section id="content31" class="slider__switch slider--hidden hidden find__fond">
+    <section id="Game08" class="slider__switch slider--hidden hidden dialogue__fond dialogue__fond--kimiCuisine">
         <div class="btn dialogue__btn">
                     <button data-tab="content32" class="btn__slider slider__js">Allons-y&#8239;!</button>
                 </div>
         <h2 class="hidden">game</h2>
-         <div class="find">
-            
+         <div id="miamMimi-container" class="find">
+           <div class="score--text"><p id="score">0&#8239;/&#8239;10</p></div>
         </div>
+        
        <div class="indice">
+       
             <div>
                 <p>Déplace Mimi</p>
                 <img class="indice__img indice__img--chat" src="assets/images/Poupee.png" alt="un chat tricolore assis avec ses deux pattes posées devant lui">
+            </div>
+        </div>
+
+        <div class="dialogue dialogue__game--mimi hidden">
+            <div class="dialogue__text">
+                <p>Mimi est aussi très contente d'avoir mangé ses bonbons&#8239;! Et hope une anecdote en plus&#8239;!!!</p>
+                <div class="btn dialogue__btn">
+                    <button data-tab="content327" class="btn__slider slider__js">Attrapons-la&#8239;!</button>
+                </div>
             </div>
         </div>
     </section>

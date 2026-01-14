@@ -1,0 +1,40 @@
+@media only screen and (min-width:600px) {
+
+    .palette {
+        display: flex;
+        gap: 12px;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        &__closed {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+    }
+
+    
+
+    .piece{
+        
+       height: 150px;
+
+
+        &__active {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 180px;
+            cursor: grab;
+            touch-action: none;
+        }
+    }
+
+    .slot {
+        width: 120px;
+        height: 120px;
+        border: 2px dashed white;
+        position: absolute;
+    }
+}
