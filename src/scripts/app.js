@@ -596,12 +596,10 @@ if (miamPoup) {
 
       if (this.score === 10) {
         this.scene.pause();
-        this.add.text(
-          this.scale.width / 2,
-          this.scale.height / 2,
-          'Super, Corentin a tout mangé !',
-          { fontSize: '36px', color: '#fff' }
-        ).setOrigin(0.5);
+        const div = document.querySelector('.dialogue__game'); 
+      if (div) {
+        div.classList.remove('hidden'); // supprime la classe pour la rendre visible
+    }
         return;
       }
 
