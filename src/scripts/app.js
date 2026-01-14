@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 console.log(gsap.version);
 
-let game = document.querySelector('.loader');
+/*let game = document.querySelector('.loader');
  if  ((game)) {
   window.addEventListener("load", function() {
       const loader = document.querySelector(".loader");
@@ -18,7 +18,59 @@ let game = document.querySelector('.loader');
       }, 500);
     });
 
-}
+}*/
+
+
+window.addEventListener("load", () => {
+  const loader = document.querySelector(".loader");
+  const main = document.querySelector("main");
+
+  const minDuration = 3000; // durée minimum du loader en ms
+  const startTime = performance.now(); // moment où le loader est affiché
+
+  // fonction pour cacher le loader et montrer le main
+  function hideLoader() {
+    loader.classList.add("fade-out");
+
+    setTimeout(() => {
+      loader.style.display = "none";
+      if (main) {
+        main.classList.remove("hidden");
+      }
+    }, 1000); // durée du fade CSS
+  }
+
+  const elapsed = performance.now() - startTime;
+  if (elapsed >= minDuration) {
+    hideLoader(); // si plus de 3s déjà passées
+  } else {
+    setTimeout(hideLoader, minDuration - elapsed); // sinon, attendre le temps restant
+  }
+});
+
+
+
+/////transition de page 
+/*
+document.addEventListener('DOMContentLoaded', () => {
+  const transition = document.querySelector('.transition');
+  if (!transition) return;
+
+  document.querySelectorAll('a[data-transition]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+
+      transition.classList.add('is-open');
+
+      // attendre la fin de la transition
+      setTimeout(() => {
+        window.location.href = href;
+      }, 850); // durée identique au SCSS ($transition-time)
+    });
+  });
+});
+*/
 
 
 //date
@@ -181,16 +233,14 @@ gsap.fromTo(".Jeux__02", {
 ////////GAME/////////////
 
 //slider game
-
+/*
 const sliders = document.querySelectorAll(".slider");
 for(let slider of sliders){
     console.log(slider);
 }
-
-
-
+*/
       //suite slider
-
+/*
             let buttons = document.querySelectorAll(".slider__js");
 for (let button of buttons) {
   button.addEventListener("click", (e) => {
@@ -265,6 +315,29 @@ for (let button of buttons) {
     }
   });
 }
+const sectionSounds = {
+  content1: document.getElementById("sound-chien"),
+  content2: document.getElementById("sound-chat"),
+  content11: document.getElementById("sound-souris"),
+  content18: document.getElementById("sound-oiseau"),
+  content21: document.getElementById("sound-catpurr")
+};
+let currentSound = null;
+*/
+
+
+
+/////new version slider avec transition au noir
+// --- Slider Game ---
+const sliders = document.querySelectorAll(".slider");
+for (let slider of sliders) {
+  console.log(slider);
+}
+
+// --- Boutons du slider ---
+let buttons = document.querySelectorAll(".slider__js");
+const sliderTransition = document.querySelector(".slider__transition"); // couche fondu
+let currentSound = null;
 
 const sectionSounds = {
   content1: document.getElementById("sound-chien"),
@@ -274,7 +347,92 @@ const sectionSounds = {
   content21: document.getElementById("sound-catpurr")
 };
 
-let currentSound = null;
+for (let button of buttons) {
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const tabId = e.currentTarget.getAttribute("data-tab"); // ✅ lire immédiatement
+
+    // 1️⃣ afficher le fondu noir
+    sliderTransition.classList.add("active");
+
+    // 2️⃣ changement de section au milieu du fondu
+    setTimeout(() => {
+      const tabs = document.querySelectorAll(".slider__switch");
+      for (let tab of tabs) {
+        tab.classList.add("slider--hidden", "hidden");
+        tab.classList.remove("slider--show");
+      }
+
+      const currentTab = document.getElementById(tabId);
+      if (currentTab) {
+        currentTab.classList.remove("slider--hidden", "hidden");
+        currentTab.classList.add("slider--show");
+      }
+
+      // --- Gestion des sons ---
+      if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+      }
+      if (sectionSounds[tabId]) {
+        currentSound = sectionSounds[tabId];
+        currentSound.play().catch(err => console.warn("Audio bloqué :", err));
+      }
+
+      // --- Animations GSAP ---
+      animateSection(tabId);
+
+    }, 500); // mi-chemin du fondu
+
+    // 3️⃣ retirer le fondu après la transition complète
+    setTimeout(() => {
+      sliderTransition.classList.remove("active");
+    }, 900);
+  });
+}
+
+// --- Fonction animateSection inchangée ---
+function animateSection(tabId) {
+  if (tabId === "content2") {
+    const illu = document.querySelector("#content2 .chat--trait");
+    const illuchat = document.querySelector(".chats02");
+    if (illu) {
+      gsap.set(illu, { x: 0, opacity: 1 });
+      gsap.to(illu, {
+        duration: 1.2,
+        x: -15,
+        opacity: 0,
+        repeat: 1,
+        ease: "power2.inOut"
+      });
+      gsap.to(illuchat, {
+        duration: 1,
+        delay: 2,
+        x: 1100,
+        ease: "power2.inOut"
+      });
+    }
+  }
+  else if (tabId === "content1") {
+    const illu = document.querySelector("#content1 .illustration__chien");
+    if (illu) {
+      gsap.set(illu, { x: 0, opacity: 1 });
+      gsap.to(illu, {
+        duration: 1.2,
+        x: 15,
+        opacity: 0,
+        repeat: -1,
+        ease: "power2.inOut"
+      });
+    }
+  }
+}
+
+
+
+
+
 
 
 

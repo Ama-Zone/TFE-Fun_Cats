@@ -6,6 +6,10 @@
     position: absolute;
 }
 
+.FindCat{
+    background-color: $c-bg2;
+}
+
 
 
 
@@ -31,6 +35,7 @@
         justify-content: center;
         z-index: 9999;
         flex-direction: column;
+        overflow: hidden; // ✅ ajouté pour que le ::after reste bien dans le loader
 
         ///////
         background-image: linear-gradient(rgba(41, 36, 37, 0.8), rgba(41, 36, 37, 0.8)), url('../assets/images/illu-vegev2.png');
@@ -46,8 +51,28 @@
             margin-bottom: $h2pc;
             opacity: 0.5;
         }
+        
 
-    }
+        &::after {              // ✅ ajouté
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: $c-bg2;           // noir plein
+            opacity: 0;                 // invisible au départ
+            transition: opacity 1s ease; 
+            z-index: 10000;             // au-dessus du contenu du loader
+        }
+
+
+        &.fade-out {            // ✅ ajouté
+            pointer-events: none;       // désactive les clics pendant la transition
+
+                &::after {     // ✅ ajouté
+                    opacity: 1;                 // devient noir en fondu
+                }
+
+            }
+        }
 
     /* Petit spinner */
     .spinner {
@@ -77,6 +102,20 @@
 
     .slider {
         display: block;
+
+        &__transition {
+            position: fixed;
+            inset: 0;
+            background-color: $c-bg2; // couleur du fondu
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998; // en dessous du loader si présent
+            transition: opacity 0.6s ease;
+
+            &.active {
+                opacity: 1; // visible pendant le fondu
+            }
+        }
     }
 
     .find {
