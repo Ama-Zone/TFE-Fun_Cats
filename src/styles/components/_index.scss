@@ -1,0 +1,347 @@
+.sect01 {
+    background-image: linear-gradient(rgba(76, 67, 69, 0.6), rgba(41, 36, 37, 0.6)), url('../assets/images/illu-vegev2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right;
+    height: 100vh;
+    max-width: 100%;
+    color: $c-text;
+
+
+    &__chat01 {
+
+        display: none;
+
+    }
+
+    &__txt {
+        text-align: center;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 200px;
+    }
+
+
+}
+
+.perso {
+    background-color: $c-colortr;
+    padding-top: $h2mob;
+
+
+    &__align {
+        display: flex;
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: $txtpc;
+        justify-content: center;
+        flex-direction: column-reverse;
+
+    }
+
+
+    &__info {
+        text-align: center;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+
+        &--img {
+            height: 200px;
+            margin-bottom: -24px;
+            margin-top: 22px;
+        }
+
+        &--poupMob {
+            margin-bottom: $h1mob;
+        }
+
+        &--poup {
+            transform: scaleX(-1);
+        }
+    }
+}
+
+.decouverte {
+    display: flex;
+    max-width: 95%;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    &__sect03 {
+        padding-top: $h2mob;
+        padding-bottom: 50px;
+
+    }
+
+    &__info {
+        background-color: $c-colortr;
+        border-radius: 22px;
+        padding: $h3mob;
+        max-width: 80%;
+        //border: 4px solid $c-bg2;
+        box-shadow: 0px 6px 1px $c-bg2 ;
+        margin-bottom: $txtmob;
+
+
+
+        p {
+            text-align: left;
+        }
+    }
+}
+
+
+.sect04 {
+
+    background-color: $c-bg;
+    padding-top: $h2mob;
+    padding-bottom: $h2mob;
+    color: $c-text;
+
+    &__info {
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+
+
+        p {
+            align-content: center;
+            margin-bottom: $txtmob;
+        }
+    }
+
+}
+
+
+
+/* DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS */
+@media only screen and (min-width:1000px) {
+
+    .sect01 {
+        background-image: linear-gradient(rgba(76, 67, 69, 0.5), rgba(41, 36, 37, 0.5)), url('../assets/images/illu-vegev2.png');
+
+        &__txt {
+            margin-left: 170px;
+            padding-top: 150px;
+            padding-right: 250px;
+            max-width: 50%;
+            text-align: left;
+
+        }
+
+
+    }
+
+    .perso {
+        background-color: $c-colortr;
+        padding-top: $h2pc;
+
+
+        &__align {
+
+            max-width: 95%;
+            margin-top: $txtpc;
+            flex-direction: row;
+
+        }
+
+
+        &__info {
+            text-align: center;
+            max-width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+
+            &--img {
+                height: 200px;
+                margin-bottom: -24px;
+                margin-top: 22px;
+            }
+
+            &--poupMob {
+                margin-bottom: 0;
+            }
+
+            &--poup {
+                transform: scaleX(-1);
+            }
+        }
+    }
+
+    .decouverte {
+        display: flex;
+        max-width: 90%;
+        flex-direction: row;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        &__sect03 {
+            padding-top: $h2pc;
+            padding-bottom: 75px;
+
+        }
+
+        &__info {
+            max-width: 25%;
+            box-shadow: 0px 6px 1px $c-bg2 ;
+
+
+
+            p {
+                text-align: left;
+            }
+        }
+    }
+
+
+    .sect04 {
+
+        background-color: $c-bg;
+        padding-top: $h1pc;
+        padding-bottom: $h1pc;
+        color: $c-text;
+
+        &__info {
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 65%;
+
+            p {
+                align-content: center;
+                margin-bottom: 0;
+            }
+        }
+
+    }
+
+
+
+
+}
+
+@media only screen and (min-width:1200px) {
+
+
+
+    .sect01 {
+
+
+        &__txt {
+            padding-top: 200px;
+            padding-left: 20px;
+
+        }
+
+        &__chat01 {
+            height: 300px;
+            position: absolute;
+            bottom: -22px;
+            display: block;
+
+
+        }
+    }
+
+
+}
+
+
+@media only screen and (min-width:1300px) {
+
+    .sect01 {
+        background-image: linear-gradient(rgba(76, 67, 69, 0.2), rgba(41, 36, 37, 0.2)), url('../assets/images/illu-vegev2.png');
+    }
+
+}
+
+
+@media only screen and (min-width:1600px) {
+
+    .perso {
+
+        &__align {
+
+            max-width: 70%;
+
+        }
+
+    }
+
+    .sect01 {
+        &__txt {
+            max-width: 40%;
+
+            padding-left: 170px;
+
+        }
+    }
+
+
+    .sect04 {
+
+
+        &__info {
+            max-width: 50%;
+        }
+
+    }
+
+}
+
+
+@media only screen and (min-width:1500px) {
+
+
+
+    .sect01 {
+        &__txt {
+            max-width: 40%;
+
+
+        }
+    }
+
+
+
+
+}
+
+
+@media only screen and (min-width:1800px) {
+
+
+
+    .sect01 {
+        &__txt {
+            max-width: 30%;
+            margin-left: 400px;
+
+        }
+
+        &__chat01 {
+            height: 400px;
+            bottom: -30px;
+
+
+
+        }
+    }
+
+
+
+
+}

@@ -1,0 +1,113 @@
+.section01 {
+    text-align: center;
+    background-color: $c-bg;
+    padding-bottom: $h1mob;
+    padding-top: $h1mob;
+    color: $c-text;
+
+    &__div {
+        max-width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+
+        h1 {
+            text-align: center;
+        }
+    }
+
+
+}
+
+.credits--section {
+    padding-top: $h2mob;
+    padding-bottom: $h2mob;
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-around;
+    color: $c-text;
+
+
+    .credits__liste {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-inline-start: 0;
+        max-width: 90%;
+
+
+
+        &--el {
+
+            background-color: $c-bg;
+            border-radius: 22px;
+            padding: $h3mob;
+            max-width: 100%;
+            //border: 4px solid $c-bg2;
+            box-shadow: 0px 6px 1px $c-bg2 ;
+            margin-bottom: $h2mob;
+
+            a {
+                color: $c-colortr;
+                text-decoration: none;
+                padding: 5px;
+                border-radius: 10px;
+
+                &:hover {
+                    color: $c-text;
+                }
+
+                &:visited {
+                    color: $c-colordx;
+                }
+            }
+        }
+    }
+}
+
+.credit {
+    background-color: $c-text;
+}
+
+
+
+/* TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE */
+@media only screen and (min-width:631px) {
+    .credits--section {
+
+        .credits__liste {
+            width: 80%;
+
+            &--el {
+                margin-bottom: $h2tab;
+                width: 530px;
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+        }
+    }
+
+
+}
+
+@media only screen and (min-width:1000px) {
+
+    .credits--section {
+
+        .credits__liste {
+            width: 80%;
+
+            &--el {
+                margin-bottom: $h2tab;
+
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+        }
+    }
+
+}

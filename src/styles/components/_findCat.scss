@@ -1,0 +1,462 @@
+.slider {
+    display: none;
+}
+
+.test {
+    position: absolute;
+}
+
+
+
+
+/* TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE */
+
+
+
+
+
+
+/* DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS */
+
+
+@media only screen and (min-width:1000px) {
+
+
+    .loader {
+        position: fixed;
+        inset: 0;
+        /* top:0; right:0; bottom:0; left:0 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        flex-direction: column;
+
+        ///////
+        background-image: linear-gradient(rgba(41, 36, 37, 0.8), rgba(41, 36, 37, 0.8)), url('../assets/images/illu-vegev2.png');
+        background-repeat: no-repeat;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: right center;
+        height: 99vh;
+        max-width: 100%;
+        color: $c-text;
+
+        p {
+            margin-bottom: $h2pc;
+            opacity: 0.5;
+        }
+
+    }
+
+    /* Petit spinner */
+    .spinner {
+        border: 10px solid $c-colorun;
+        border-top: 10px solid $c-colordx;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .game {
+        overflow: hidden;
+    }
+
+    .InfoMob {
+        display: none;
+    }
+
+    .slider {
+        display: block;
+    }
+
+    .find {
+
+        width: 100vw;
+        height: 100vh;
+
+        &__fond {
+            background-color: $c-bg;
+        }
+
+        &__img {
+            background-image: url('../assets/images/jardin01.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+
+        svg {
+
+
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .illustration {
+
+        display: flex;
+        align-items: flex-start;
+
+        //padding-top: $h1pc;
+
+        &__chien {
+            padding-left: $h2pc;
+
+            img {
+                width: 85%;
+            }
+        }
+
+
+        &__chat {
+
+            justify-content: flex-end;
+
+            img {
+                width: 60%;
+            }
+        }
+
+        &__chatSouris {
+            display: flex;
+
+            img {
+                width: 40%;
+            }
+        }
+    }
+
+
+    .fleche {
+
+        &__btn {
+            background-image: url('../assets/images/svg/fleche.svg');
+            background-color: transparent;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 40px;
+            width: 76px;
+        }
+    }
+
+    .dialogue {
+        width: 100%;
+        padding-top: $h2pc;
+        padding-bottom: $h2pc;
+        color: $c-text;
+        background-color: rgba(76, 67, 69, 0.9);
+        position: absolute;
+        bottom: 0;
+        border-top: $c-colorun 4px solid;
+        border-radius: $txtpc $txtpc 0 0;
+
+        &__btn {
+            margin-top: 0;
+        }
+
+        &__text {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            //flex-wrap: wrap;
+
+            &--p {
+                max-width: 80%;
+            }
+
+            p {
+                margin-right: 22px;
+                max-width: 80%;
+            }
+
+        }
+
+        &__fond {
+
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: right top;
+
+            &--chien {
+                background-image: url('../assets/images/svg/chienV3.svg');
+            }
+
+            &--twoCats {
+                background-image: url('../assets/images/twoCatsV4.png');
+            }
+
+            &--kimiSouris {
+                background-image: url('../assets/images/kimi-sourisV2.png');
+            }
+
+            &--kimiCuisine {
+                background-image: url('../assets/images/CuisineKimi.png');
+            }
+
+            &--kimiOiseau {
+                background-image: url('../assets/images/kimi-oiseau.png');
+            }
+
+            &--souris {
+                background-image: url('../assets/images/souris-dehors.png');
+            }
+
+            &--oiseau {
+                background-image: url('../assets/images/salon01V2.png');
+            }
+
+            &--poupChaise {
+                background-image: url('../assets/images/svg/poupChaise.svg');
+            }
+
+            &--poupKimi {
+                background-image: url('../assets/images/poupKimi.png');
+            }
+
+
+        }
+
+    }
+
+
+    .indice {
+        width: 100px;
+        padding: $h2pc $h2pc 0 $h2pc;
+        color: $c-text;
+        background-color: $c-bg;
+        border-radius: $txtpc;
+        position: absolute;
+        right: 32px;
+        top: 72px;
+        border: 2px solid $c-colorun;
+        //box-shadow: 0px 6px 1px $c-bg2;
+        text-align: center;
+
+        &__img {
+            width: 70px;
+
+            margin-top: $txtpc;
+
+            &--chat {
+                margin-bottom: -15px;
+            }
+
+            &--bestiole {
+                background-color: $c-text;
+                padding: 10px;
+                border-radius: 22px;
+                border: 2px solid $c-bg2;
+            }
+        }
+
+        &__bestiole {
+            padding-bottom: $h2pc;
+        }
+    }
+
+
+    .anecd {
+        max-width: 45%;
+        padding: $h2pc;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        background-color: rgba(76, 67, 69, 0.9);
+        border-radius: $txtpc;
+
+        flex-direction: column;
+        border: 2px solid $c-colorun;
+
+        &__find {
+            text-align: center;
+            color: $c-text;
+            margin-bottom: $h2pc;
+        }
+
+        &__para {
+            color: $c-text;
+            margin-bottom: $txtpc;
+        }
+
+        &__text {
+            padding: $h3pc;
+            background-color: $c-colortr;
+            color: $c-bg2;
+            box-shadow: 0px 6px 1px $c-bg2 ;
+            border-radius: $txtpc;
+            margin-bottom: $h1pc;
+            //border: 2px solid $c-bg2;
+        }
+
+        &__btn {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+
+
+
+    }
+
+
+
+
+    .anecd {
+
+        &__fond {
+
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            &--01 {
+                background-image: url('../assets/images/jardin01.png');
+            }
+
+            &--02 {
+                background-image: url('../assets/images/CuisineV2.png');
+            }
+
+            &--03 {
+                background-image: url('../assets/images/salonV2.png');
+            }
+        }
+
+        &__filter {
+            background-color: rgba(41, 36, 37, 0.687);
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .slider__switch {
+        width: 100%;
+        height: 100vh;
+
+    }
+
+
+
+
+
+    .slider--hidden {
+        /*masquer*/
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+        position: relative;
+        z-index: -10;
+    }
+
+    .slider--show {
+        transform: translateX(0);
+        /*affiche*/
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        z-index: 1;
+        position: relative;
+    }
+
+
+    .mouse {
+        background-image: url('../assets/images/fond.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+
+
+        &__btn {
+            position: absolute;
+
+            z-index: 10;
+            height: 50px;
+            width: 100px;
+            background-image: url('../assets/images/svg/souris.svg');
+            background-repeat: no-repeat;
+            background-color: transparent;
+            border: 0px;
+            background-position: -1;
+        }
+    }
+
+    .oiseau {
+        background-image: url('../assets/images/fond.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+
+
+        &__btn {
+            position: absolute;
+
+            z-index: 10;
+            height: 100px;
+            width: 200px;
+            background-image: url('../assets/images/svg/oiseau.svg');
+            background-repeat: no-repeat;
+            background-color: transparent;
+            border: 0px;
+            background-position: 1;
+        }
+    }
+
+
+}
+
+
+
+
+@media only screen and (min-width:1300px) {
+
+
+    .find {
+
+        svg {
+
+            height: 100vh;
+        }
+    }
+
+
+    .indice {
+        right: 22px;
+        top: 22px;
+    }
+
+
+}
+
+
+@media only screen and (min-width:1800px) {
+
+
+
+    .dialogue__text--p {
+        max-width: 90%;
+    }
+
+
+
+
+}

@@ -1,0 +1,143 @@
+/* footer */
+
+/* footer */
+
+.footer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: relative;
+    z-index: 1;
+    background-color: $c-text;
+    color: $c-bg2;
+
+
+    a {
+        font-size: 18px;
+
+
+    }
+
+    &__info {
+        padding: 5px 0 5px 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: normal;
+        text-decoration: none;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+
+        a {
+            align-content: center;
+        }
+
+
+        p {
+            width: 85%;
+            max-width: inherit;
+            align-content: center;
+
+        }
+
+        &--logodwm {
+            height: 40px;
+            width: 60px;
+        }
+    }
+}
+
+.navfo__liste--li a,
+.footer__info a {
+    color: $c-bg2;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.navfo__liste--li {
+    list-style-type: none;
+    text-align: center;
+}
+
+.navfo__liste--li a:hover,
+.footer__info a:hover:not(.footer__info--nohover) {
+    text-decoration: underline;
+    color: $c-bg2;
+
+}
+
+.navfo__liste {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 32px;
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    column-gap: 16px;
+    width: max-content;
+    margin-bottom: 0;
+}
+
+@media only screen and (min-width:768px) {}
+
+@media only screen and (min-width:1000px) {
+
+    .index--footer {
+        padding-top: $h1pc;
+        padding-right: 19%;
+
+    }
+
+
+
+    .navfo__liste {
+        display: flex;
+
+    }
+
+    .footer__info {
+        display: flex;
+        width: 16%;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        column-gap: 22px;
+
+        &--logodwm {
+            width: inherit;
+            height: 30px;
+            width: 50px;
+            margin-top: 5px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        a span {
+            width: max-content;
+            display: flex;
+        }
+    }
+
+}
+
+@media only screen and (min-width:1678px) {
+
+
+    .index__footer {
+        padding-right: inherit;
+
+    }
+
+    .index--footer {
+        margin-top: 25vh;
+        padding-right: inherit;
+
+    }
+
+
+}
