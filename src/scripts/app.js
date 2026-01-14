@@ -2,33 +2,21 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 console.log(gsap.version);
-
-/*let game = document.querySelector('.loader');
- if  ((game)) {
-  window.addEventListener("load", function() {
-      const loader = document.querySelector(".loader");
-      const site = document.querySelector(".site");
-
-      loader.style.opacity = "0";
-      loader.style.transition = "opacity 0.5s ease";
-
-      setTimeout(() => {
-        loader.style.display = "none";  // masque définitivement le loader
-        site.classList.remove("hidden"); // affiche ton slider d’un coup
-      }, 500);
-    });
-
-}*/
+import Phaser from "phaser";
+console.log(Phaser.VERSION);
 
 
+
+
+/////chargement de page
 window.addEventListener("load", () => {
   const loader = document.querySelector(".loader");
   const main = document.querySelector("main");
 
-  const minDuration = 3000; // durée minimum du loader en ms
-  const startTime = performance.now(); // moment où le loader est affiché
+  const minDuration = 3000; //durée minimum du loader en ms
+  const startTime = performance.now(); //moment où le loader est affiché
 
-  // fonction pour cacher le loader et montrer le main
+  //fonction pour cacher le loader et montrer le main
   function hideLoader() {
     loader.classList.add("fade-out");
 
@@ -50,37 +38,12 @@ window.addEventListener("load", () => {
 
 
 
-/////transition de page 
-/*
-document.addEventListener('DOMContentLoaded', () => {
-  const transition = document.querySelector('.transition');
-  if (!transition) return;
-
-  document.querySelectorAll('a[data-transition]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = link.getAttribute('href');
-
-      transition.classList.add('is-open');
-
-      // attendre la fin de la transition
-      setTimeout(() => {
-        window.location.href = href;
-      }, 850); // durée identique au SCSS ($transition-time)
-    });
-  });
-});
-*/
-
-
 //date
-
 let date = new Date().getFullYear();
 document.getElementById('annee').innerHTML = date;
 
 
 //////////anime Index
-
 let animpc = document.querySelector('.sect01__txt');
 if  ((window.matchMedia('(min-width: 1000px)').matches) && (animpc)) {
       
@@ -92,8 +55,8 @@ if  ((window.matchMedia('(min-width: 1000px)').matches) && (animpc)) {
       });
 
 
-//////personnage section
 
+//////personnage section
 gsap.registerPlugin(ScrollTrigger);
 
 gsap.fromTo(".perso__info",
@@ -114,8 +77,6 @@ gsap.fromTo(".perso__info",
     }
   }
 );
-
-
 gsap.fromTo(".decouverte__info", {
   y: 50,
     opacity: 0,
@@ -136,9 +97,6 @@ gsap.fromTo(".decouverte__info", {
   }
 });
 
-
-
-
 } else {
 
   gsap.registerPlugin(ScrollTrigger);
@@ -149,8 +107,6 @@ gsap.fromTo(".decouverte__info", {
         opacity: 0,
       });
 
-
-      
   gsap.fromTo(".anec", {
     y: 20,
     opacity: 0,
@@ -210,120 +166,15 @@ gsap.fromTo(".Jeux__02", {
       markers: false
   }
 });
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 ////////GAME/////////////
 
-//slider game
-/*
-const sliders = document.querySelectorAll(".slider");
-for(let slider of sliders){
-    console.log(slider);
-}
-*/
-      //suite slider
-/*
-            let buttons = document.querySelectorAll(".slider__js");
-for (let button of buttons) {
-  button.addEventListener("click", (e) => {
-    let tabs = document.querySelectorAll(".slider__switch");
-    for (let tab of tabs) {
-      tab.classList.add("slider--hidden", "hidden");
-      tab.classList.remove("slider--show");
-    }
 
-    let tabId = e.currentTarget.getAttribute("data-tab");
-    let currentTab = document.getElementById(tabId);
-    currentTab.classList.remove("slider--hidden", "hidden");
-    currentTab.classList.add("slider--show");
+///PUZZLE PHASER
 
-    // --- 🔊 Gestion des sons ---
-    if (currentSound) {
-      currentSound.pause();
-      currentSound.currentTime = 0;
-    }
-
-    animateSection(tabId);
-
-    function animateSection(tabId) {
-  if (tabId === "content2") {
-    const illu = document.querySelector("#content2 .chat--trait");
-    const illuchat = document.querySelector(".chats02");
-    if (illu) {
-      // remettre l’illu visible avant d’animer (au cas où on revient sur la section)
-      gsap.set(illu, { x: 0, opacity: 1 });
-
-      gsap.to(illu, {
-        duration: 1.2,        // durée en secondes
-        x: -15,   
-        opacity:0,
-        repeat: 1,         // disparaît progressivement
-        ease: "power2.inOut"
-      });
-
-      gsap.to(illuchat, {
-        duration: 1,        // durée en secondes
-        delay: 2,           // délai AVANT le début de l’animation
-        x: 1100,
-                 // déplacement vers la droite
-        ease: "power2.inOut"
-      });
-    }
-  }
-  else if (tabId === "content1") {
-    const illu = document.querySelector("#content1 .illustration__chien");
-    if (illu) {
-      // remettre l’illu visible avant d’animer (au cas où on revient sur la section)
-      gsap.set(illu, { x: 0, opacity: 1 });
-
-      gsap.to(illu, {
-        duration: 1.2,        // durée en secondes
-        x: 15,   
-        opacity:0,
-        repeat: -1,         // disparaît progressivement
-        ease: "power2.inOut"
-      });
-    }
-  }
-}
-
-
-
-    if (sectionSounds[tabId]) {
-      currentSound = sectionSounds[tabId];
-      currentSound.play().catch(err => {
-        console.warn("Audio bloqué par le navigateur :", err);
-      });
-    }
-  });
-}
-const sectionSounds = {
-  content1: document.getElementById("sound-chien"),
-  content2: document.getElementById("sound-chat"),
-  content11: document.getElementById("sound-souris"),
-  content18: document.getElementById("sound-oiseau"),
-  content21: document.getElementById("sound-catpurr")
-};
-let currentSound = null;
-*/
 
 
 
@@ -353,10 +204,10 @@ for (let button of buttons) {
 
     const tabId = e.currentTarget.getAttribute("data-tab"); // ✅ lire immédiatement
 
-    // 1️⃣ afficher le fondu noir
+    //afficher le fondu noir
     sliderTransition.classList.add("active");
 
-    // 2️⃣ changement de section au milieu du fondu
+    //changement de section au milieu du fondu
     setTimeout(() => {
       const tabs = document.querySelectorAll(".slider__switch");
       for (let tab of tabs) {
@@ -385,14 +236,14 @@ for (let button of buttons) {
 
     }, 500); // mi-chemin du fondu
 
-    // 3️⃣ retirer le fondu après la transition complète
+    //retirer le fondu après la transition complète
     setTimeout(() => {
       sliderTransition.classList.remove("active");
     }, 900);
   });
 }
 
-// --- Fonction animateSection inchangée ---
+// --- Fonction animateSection
 function animateSection(tabId) {
   if (tabId === "content2") {
     const illu = document.querySelector("#content2 .chat--trait");
@@ -430,14 +281,7 @@ function animateSection(tabId) {
 }
 
 
-
-
-
-
-
-
-
-////////////////////// 
+////game souris et oiseau
 let btnMouse = document.querySelector(".mouse__btn");
 let btnOiseau = document.querySelector(".oiseau__btn");
 
@@ -547,16 +391,10 @@ if  ((btnOiseau)) {
     }
   });
 }
-
   moveAlongPath(centerX, centerY);
 
-
-
-
-  /////////////////////////////////////////////
-
-
-     document.addEventListener("DOMContentLoaded", function() {
+  ///
+   document.addEventListener("DOMContentLoaded", function() {
   const buttons = document.querySelectorAll('.btn__anecdotes');
   
   buttons.forEach(button => {
@@ -580,9 +418,7 @@ document.querySelectorAll(".btn__close").forEach(btn => {
 });
 
 
-
-//trouver chats
-
+//trouver les chats
 let poupCuisine = document.querySelector(".poupFind");
 let cercleCuisine = document.querySelector(".cerclePoup");
 let kimiSalon = document.querySelector(".kimiFind02");
@@ -596,15 +432,215 @@ poupCuisine.addEventListener("click", (e) =>{
 kimiSalon.addEventListener("click", (e) =>{
       cercleSalon.classList.remove("hidden");
 
-})
+})       
+}
+
+let puzzle = document.querySelector("#puzzle-container");
+
+if  ((puzzle)) {
+
+  ///PUZZLE PHASER
+  function create() {
+  const { width, height } = this.scale;
+
+  // =========================
+  // 1️⃣ Données des pièces (positions RELATIVES)
+  // =========================
+  const piecesData = [
+    { cropX: 0,   cropY: 0,   w: 200, h: 200, tx: 0.35, ty: 0.3 },
+    { cropX: 200, cropY: 0,   w: 200, h: 200, tx: 0.55, ty: 0.3 },
+    { cropX: 0,   cropY: 200, w: 400, h: 200, tx: 0.45, ty: 0.65 }
+  ];
+
+  // =========================
+  // 2️⃣ Création des pièces
+  // =========================
+  piecesData.forEach((data) => {
+    const piece = this.add.image(
+      Phaser.Math.Between(50, width - 50),
+      Phaser.Math.Between(50, height - 50),
+      "puzzle"
+    );
+
+    piece.setCrop(data.cropX, data.cropY, data.w, data.h);
+    piece.setInteractive({ draggable: true });
+
+    // position cible responsive
+    piece.targetX = width * data.tx;
+    piece.targetY = height * data.ty;
+  });
+
+  // =========================
+  // 3️⃣ Drag (UNE seule fois)
+  // =========================
+  this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+    gameObject.x = dragX;
+    gameObject.y = dragY;
+  });
+
+  // =========================
+  // 4️⃣ Snap au bon endroit
+  // =========================
+  this.input.on("dragend", (pointer, gameObject) => {
+    const dist = Phaser.Math.Distance.Between(
+      gameObject.x,
+      gameObject.y,
+      gameObject.targetX,
+      gameObject.targetY
+    );
+
+    if (dist < 40) {
+      gameObject.disableInteractive();
+
+      gsap.to(gameObject, {
+        x: gameObject.targetX,
+        y: gameObject.targetY,
+        duration: 0.4,
+        ease: "back.out(1.4)"
+      });
+    }
+  });
+}
+
+}
+
+const miamPoup = document.querySelector("#miamPoup-container");
+
+if (miamPoup) {
+  class Start extends Phaser.Scene {
+    constructor() {
+      super('Start');
+    }
+
+    preload() {
+      this.load.image('background', 'assets/images/CuisineV2.png');
+      this.load.image('corentin', 'assets/images/Poupee.png');
+      this.load.image('corentin-happy', 'assets/corentin-happy2.png');
+      this.load.image('corentin-triste', 'assets/coco-triste.png');
+      this.load.image('bonbon', 'assets/images/bonbon.png');
+    }
+
+    create() {
+    const { width, height } = this.scale;
+
+    // Personnage principal
+    this.corentin = this.physics.add.image(100, height - 120, 'corentin')
+      .setScale(0.4)
+      .setCollideWorldBounds(true);
+    this.corentin.body.setCircle(120);
+
+    // Drag horizontal
+    this.corentin.setInteractive({ draggable: true });
+    this.input.on('drag', (pointer, obj, dragX) => obj.setX(dragX));
+
+    // Génération du bonbon
+    this.spawnBonbon();
+
+    // Collision bonbon / corentin
+    this.physics.add.overlap(
+      this.corentin,
+      this.bonbon,
+      this.eatBonbon,
+      null,
+      this
+    );
+
+    // Score
+    this.score = 0;
+    this.scoreText = document.querySelector('.score--text');
+    }
+
+
+    update() {
+      // Vérifie si le bonbon est hors écran
+      if (this.bonbon.y > this.scale.height + 50) {
+        this.missBonbon();
+      }
+    }
+
+
+    spawnBonbon() {
+      const { width } = this.scale;
+
+      this.bonbon = this.physics.add.image(
+        Phaser.Math.Between(50, width - 50),
+        -50,
+        'bonbon'
+      );
+
+      this.resetBonbon();
+    }
+
+    resetBonbon() {
+      const { width } = this.scale;
+
+      this.bonbon.setPosition(
+        Phaser.Math.Between(50, width - 50),
+        -50
+      );
+
+      this.bonbon.setScale(Phaser.Math.Between(3, 4) / 20);
+      this.bonbon.setVelocity(0, Phaser.Math.Between(100, 200));
+    }
+
+    eatBonbon() {
+      this.score++;
+      if (this.scoreText) {
+        this.scoreText.textContent = `${this.score}/10`;
+      }
+
+      this.corentin.setTexture('corentin-happy');
+      this.time.delayedCall(300, () => {
+        this.corentin.setTexture('corentin');
+      });
+
+      if (this.score === 10) {
+        this.scene.pause();
+        this.add.text(
+          this.scale.width / 2,
+          this.scale.height / 2,
+          'Super, Corentin a tout mangé !',
+          { fontSize: '36px', color: '#fff' }
+        ).setOrigin(0.5);
+        return;
+      }
+
+      this.resetBonbon();
+    }
+
+    missBonbon() {
+      this.corentin.setTexture('corentin-triste');
+      this.time.delayedCall(300, () => {
+        this.corentin.setTexture('corentin');
+      });
+      this.resetBonbon();
+    }
+  }
+
+  const config = {
+    type: Phaser.AUTO,
+    parent: 'miamPoup-container',
+    backgroundColor: '#ffc5de',
+    physics: {
+      default: 'arcade',
+      arcade: { gravity: { y: 0 } }
+    },
+    scale: {
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: 1280,
+      height: 720
+    },
+     transparent: true,
+    scene: [Start]
+  };
+
+  new Phaser.Game(config);
+}
 
 
 
 
-
-
-        
- }
 
 
            

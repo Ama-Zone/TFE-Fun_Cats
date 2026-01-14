@@ -1,9 +1,11 @@
-.slider {
-    display: none;
-}
+
 
 .test {
     position: absolute;
+}
+
+.find{
+    position: relative;
 }
 
 .FindCat{
@@ -11,20 +13,22 @@
 }
 
 
+.InfoMob {
+        display: block;
+}
+.slider{
+    display: none;
+}
 
 
-/* TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE */
 
 
 
+@media only screen and (min-width:600px) {
 
-
-
-/* DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS */
-
-
-@media only screen and (min-width:1000px) {
-
+    .find{
+        position: relative;
+    }
 
     .loader {
         position: fixed;
@@ -194,8 +198,8 @@
 
     .dialogue {
         width: 100%;
-        padding-top: $h2pc;
-        padding-bottom: $h2pc;
+        padding-top: $txtmob;
+        padding-bottom: $txtmob;
         color: $c-text;
         background-color: rgba(76, 67, 69, 0.9);
         position: absolute;
@@ -211,7 +215,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            max-width: 90%;
+            max-width: 95%;
             margin-left: auto;
             margin-right: auto;
             //flex-wrap: wrap;
@@ -247,6 +251,7 @@
 
             &--kimiCuisine {
                 background-image: url('../assets/images/CuisineKimi.png');
+                
             }
 
             &--kimiOiseau {
@@ -272,18 +277,33 @@
 
         }
 
+
+            img, video {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            .score--text{
+                position: absolute;
+                bottom: 50px;
+                left: 50px;
+                color: $c-bg2;
+                z-index: 2000;
+            }
+
     }
 
 
     .indice {
         width: 100px;
-        padding: $h2pc $h2pc 0 $h2pc;
+        padding: $txtmob $txtpc 0 $txtpc;
         color: $c-text;
         background-color: $c-bg;
         border-radius: $txtpc;
         position: absolute;
-        right: 32px;
-        top: 72px;
+        right: $txtmob;
+        top: $txtmob;
         border: 2px solid $c-colorun;
         //box-shadow: 0px 6px 1px $c-bg2;
         text-align: center;
@@ -459,8 +479,185 @@
             background-position: 1;
         }
     }
+}
 
 
+
+
+
+/* TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE TABLETTE */
+
+
+
+
+
+
+/* DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS DESKTOPS */
+
+
+@media only screen and (min-width:1000px) {
+
+
+    
+
+
+    
+
+
+    
+
+    .illustration {
+
+        &__chien {
+            padding-left: $h2pc;
+            img {
+                width: 85%;
+            }
+        }
+
+
+        &__chat {
+            img {
+                width: 60%;
+            }
+        }
+
+        &__chatSouris {
+
+            img {
+                width: 40%;
+            }
+        }
+    }
+
+
+    .fleche {
+
+        &__btn {
+            height: 40px;
+            width: 76px;
+        }
+    }
+
+    .dialogue {
+        width: 100%;
+        padding-top: $h2pc;
+        padding-bottom: $h2pc;
+        bottom: 0;
+
+        &__btn {
+            margin-top: 0;
+        }
+
+        &__text {
+            
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+
+            &--p {
+                max-width: 80%;
+            }
+
+            p {
+                margin-right: 22px;
+                max-width: 80%;
+            }
+
+        }
+
+        
+
+    }
+
+
+    .indice {
+        width: 100px;
+        padding: $h2pc $h2pc 0 $h2pc;
+        border-radius: $txtpc;
+        right: 32px;
+        top: 72px;
+
+        &__img {
+            width: 70px;
+            margin-top: $txtpc;
+
+            &--chat {
+                margin-bottom: -15px;
+            }
+
+            &--bestiole {
+                padding: 10px;
+                border-radius: 22px;
+            }
+        }
+
+        &__bestiole {
+            padding-bottom: $h2pc;
+        }
+    }
+
+
+    .anecd {
+        max-width: 45%;
+        padding: $h2pc;
+        margin-left: auto;
+        margin-right: auto;
+
+        &__find {
+            margin-bottom: $h2pc;
+        }
+
+        &__para {
+            margin-bottom: $txtpc;
+        }
+
+        &__text {
+            padding: $h3pc;
+            margin-bottom: $h1pc;
+        }
+
+        &__btn {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+
+
+
+    .anecd {
+        &__filter {
+            background-color: rgba(41, 36, 37, 0.687);
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .slider__switch {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .mouse {
+        &__btn {        
+            height: 50px;
+            width: 100px;        
+        }
+    }
+
+    .oiseau {
+        &__btn { 
+            height: 100px;
+            width: 200px;   
+        }  
+    }
 }
 
 
@@ -476,7 +673,6 @@
             height: 100vh;
         }
     }
-
 
     .indice {
         right: 22px;
