@@ -88,7 +88,7 @@ gsap.fromTo(".decouverte__info", {
     duration: 1,
     scale: 1,
     ease: "linear",
-  immediateRender: false,   // 🔑 empêche l'effet au chargement
+  immediateRender: false,   //empêche l'effet au chargement
   scrollTrigger: {
     trigger: ".decouverte__sect03",
     start: "top 80%",
@@ -118,7 +118,7 @@ gsap.fromTo(".decouverte__info", {
     duration: 1,
     scale: 1,
     ease: "linear",
-    immediateRender: false,   // 🔑 empêche l'effet au chargement
+    immediateRender: false,   
     scrollTrigger: {
       trigger: ".decouverte__sect03",
       start: "top 80%",
@@ -138,7 +138,7 @@ gsap.fromTo(".Jeux__01", {
     duration: 1,
     scale: 1,
     ease: "linear",
-    immediateRender: false,   // 🔑 empêche l'effet au chargement
+    immediateRender: false,   
     scrollTrigger: {
       trigger: ".anec",
       start: "top 70%",
@@ -158,7 +158,7 @@ gsap.fromTo(".Jeux__02", {
     duration: 1,
     scale: 1,
     ease: "linear",
-    immediateRender: false,   // 🔑 empêche l'effet au chargement
+    immediateRender: false,   
     scrollTrigger: {
       trigger: ".Jeux__01",
       start: "top 80%",
@@ -169,7 +169,7 @@ gsap.fromTo(".Jeux__02", {
 }
 
 
-/////new version slider avec transition au noir
+
 // --- Slider Game ---
 const sliders = document.querySelectorAll(".slider");
 for (let slider of sliders) {
@@ -178,7 +178,7 @@ for (let slider of sliders) {
 
 // --- Boutons du slider ---
 let buttons = document.querySelectorAll(".slider__js");
-const sliderTransition = document.querySelector(".slider__transition"); // couche fondu
+const sliderTransition = document.querySelector(".slider__transition"); 
 let currentSound = null;
 
 const sectionSounds = {
@@ -193,7 +193,7 @@ for (let button of buttons) {
   button.addEventListener("click", (e) => {
     e.preventDefault();
 
-    const tabId = e.currentTarget.getAttribute("data-tab"); // ✅ lire immédiatement
+    const tabId = e.currentTarget.getAttribute("data-tab"); 
 
     //afficher le fondu noir
     sliderTransition.classList.add("active");
@@ -329,7 +329,7 @@ document.querySelectorAll('.indice__close').forEach(btn => {
     const path = randomPath(startX, startY);
 
     gsap.to(btn, {
-      duration: 2,
+      duration: 6,
       ease: "power1.inOut",
       motionPath: {
         path: [{ x: startX, y: startY }, ...path],
@@ -390,7 +390,7 @@ if  ((btnOiseau)) {
   }
 
   gsap.to(btn, {
-    duration: 2,
+    duration: 6,
     ease: "power1.inOut",
     motionPath: {
       path: [{ x: startX, y: startY }, ...path],
@@ -641,7 +641,7 @@ if (puzzle) {
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
     const colorContainer = document.querySelector("#color-container");
 
     if (colorContainer) {
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const diagFelicitation = document.querySelector('.dialogue__game--color02');
         const diagAnecdote = document.querySelector('.dialogue__game--color03');
-        const shapes = colorContainer.querySelectorAll('.cls-1, .cls-2, .cls-3');
+        const shapes = colorContainer.querySelectorAll('.cls-1, .cls-2, .cls-3, .cls-4, .area');
 
         // --- 2. FONCTIONS DE LA PALETTE (OUVRIR / FERMER) ---
 
@@ -756,6 +756,111 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+});*/
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const colorContainer = document.querySelector("#color-container");
+
+    // On n'exécute le code que si le conteneur du jeu existe sur la page
+    if (colorContainer) {
+        let selectedColor = null; 
+        const paintedAreas = new Set();
+
+        const btnOpenPalette = document.querySelector('#palette__open--color');
+        const paletteElement = document.querySelector('.palette__color');
+        const btnValidate = document.querySelector('#color__fin');
+        const btnFleche = document.querySelector('#color__wow');
+        
+        const diagFelicitation = document.querySelector('.dialogue__game--color02');
+        const diagAnecdote = document.querySelector('.dialogue__game--color03');
+
+        // --- GESTION DE LA PALETTE ---
+        const togglePalette = (isOpen) => {
+            if (paletteElement) {
+                gsap.to(paletteElement, { 
+                    autoAlpha: isOpen ? 1 : 0, 
+                    y: isOpen ? 0 : 20, 
+                    display: isOpen ? 'flex' : 'none', 
+                    duration: 0.4 
+                });
+            }
+        };
+
+        if (btnOpenPalette) {
+            btnOpenPalette.addEventListener('click', () => togglePalette(true));
+        }
+
+        // --- SÉLECTION DES COULEURS ---
+        document.querySelectorAll('.color').forEach(div => {
+            div.addEventListener('click', () => {
+                selectedColor = div.getAttribute('data-color');
+                gsap.to(".color", { scale: 1, border: "2px solid white" });
+                gsap.to(div, { scale: 1.2, border: "2px solid #000", duration: 0.2 });
+                togglePalette(false); // Ferme la palette après le choix
+            });
+        });
+
+        // --- LOGIQUE DE COLORIAGE ---
+        // On sélectionne TOUS les éléments du SVG pour ne rien rater
+        const shapes = colorContainer.querySelectorAll('path, polygon, circle, ellipse, rect');
+
+        shapes.forEach(shape => {
+            // FORCE la zone de clic même si la forme n'a pas de couleur de fond (fill="none")
+            shape.style.pointerEvents = "all";
+            shape.style.cursor = "pointer";
+
+            shape.addEventListener('click', (e) => {
+                if (selectedColor) {
+                    // On applique la couleur via GSAP (écrase le CSS)
+                    gsap.set(e.target, { fill: selectedColor });
+                    
+                    paintedAreas.add(e.target);
+                    
+                    // Si on a colorié assez de zones
+                    if (paintedAreas.size >= 5 && btnValidate) {
+                        btnValidate.disabled = false;
+                        btnValidate.classList.remove('is-disabled');
+                        gsap.to(btnValidate, { autoAlpha: 1, scale: 1, y: 0, duration: 0.6 });
+                    }
+                } else {
+                    // Si clic sans couleur, on ouvre la palette
+                    togglePalette(true);
+                    if (paletteElement) {
+                        gsap.to(paletteElement, { x: 10, duration: 0.1, repeat: 3, yoyo: true });
+                    }
+                }
+            });
+        });
+
+        // --- TRANSITIONS FINALES ---
+        if (btnValidate) {
+            btnValidate.addEventListener('click', (e) => {
+                e.preventDefault();
+                gsap.to([paletteElement, btnOpenPalette], { 
+                    autoAlpha: 0, y: 30, duration: 0.5,
+                    onComplete: () => {
+                        if (diagFelicitation) {
+                            diagFelicitation.classList.remove('hidden');
+                            gsap.fromTo(diagFelicitation, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, display: 'block' });
+                        }
+                    }
+                });
+            });
+        }
+
+        if (btnFleche) {
+            btnFleche.addEventListener('click', () => {
+                gsap.to(diagFelicitation, { autoAlpha: 0, duration: 0.4, onComplete: () => {
+                    if (diagFelicitation) diagFelicitation.classList.add('hidden');
+                    if (diagAnecdote) {
+                        diagAnecdote.classList.remove('hidden');
+                        gsap.fromTo(diagAnecdote, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, display: 'block' });
+                    }
+                }});
+            });
+        }
+    }
 });
 
 const miamPoup = document.querySelector("#miamPoup-container");
@@ -810,7 +915,7 @@ function initMiamGame(containerId, characterKey) {
       );
 
       this.score = 0;
-      this.scoreText = container.querySelector('#score');
+      this.scoreText = container.querySelector('.score');
       if (this.scoreText) this.scoreText.textContent = '0/10';
 
       // Choix de la div de victoire selon le personnage

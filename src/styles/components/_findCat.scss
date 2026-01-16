@@ -212,6 +212,7 @@
 
         &__btn {
             margin-top: 0;
+            z-index: 500;
         }
 
         &__text {
@@ -288,8 +289,30 @@
             &--chatCIA{
                 background-image: url('../assets/images/svg/ChatCIA.svg');
             }
-            
 
+            &--liquide{
+                background-image: url('../assets/images/svg/ChatLiquide.svg');
+            }
+
+            &--chatgrand{
+                background-image: url('../assets/images/svg/chatgrand.svg');
+            }
+            
+            &--soucuis{
+                background-image: url('../assets/images/svg/souris-cuisi.svg');
+            }
+
+            &--Male {
+                background-image: url('../assets/images/svg/male-femelle.svg');
+            }
+
+            &--dechir{
+                background-image: url('../assets/images/svg/imagedechi.svg');
+            }
+
+            &--laver{
+                background-image: url('../assets/images/svg/Dodo.svg');
+            }
         }
     }
 
