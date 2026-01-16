@@ -1,10 +1,30 @@
 @media only screen and (min-width:600px) {
 
+    #Game05 {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        /* Ou absolute si c'est un slider */
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    #puzzle-container,
+    .puzzle,
+    .slot {
+        box-sizing: border-box;
+    }
+
     .palette {
+        z-index: 100;
         display: flex;
         gap: 12px;
         transition: opacity 0.3s ease;
         position: absolute;
+        justify-content: center;
+
         &__closed {
             opacity: 0;
             pointer-events: none;
@@ -12,11 +32,41 @@
 
     }
 
-    
+    .puzzle {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 colonnes */
+        grid-template-rows: repeat(2, 1fr);
+        /* 2 lignes */
+        gap: 20px;
+        padding: 10vh 10vw;
+        /* Marges autour de la grille */
+        justify-items: center;
+        align-items: center;
 
-    .piece{
-        
-       height: 150px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 0;
+        /* On commence à 0 pour être sûr que ça rentre */
+        padding: 1px;
+        /* Une petite marge interne globale */
+
+        &-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            /* Empêche tout défilement */
+        }
+    }
+
+    .piece {
+
+        height: 150px;
 
 
         &__active {
@@ -24,17 +74,51 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-
+            z-index: 999;
             width: 180px;
             cursor: grab;
             touch-action: none;
         }
+
+        &__snapped {
+            pointer-events: none;
+        }
+
+        &__used {
+            opacity: 0.3;
+            filter: grayscale(100%);
+            cursor: default;
+            display: none;
+        }
+
+        &__current {
+            outline: 2px dashed #fff;
+        }
+
     }
 
     .slot {
-        width: 120px;
-        height: 120px;
-        border: 2px dashed white;
-        position: absolute;
+        position: relative;
+
+        /* Le slot prend 80% de la zone de grille pour laisser de l'air */
+        width: 100%;
+        height: 100%;
+
+        /* On centre le slot dans sa cellule de grille */
+        justify-self: center;
+        align-self: center;
+        background-color: $c-bg;
+        border: 2px dashed $c-bg2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .game-viewport {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
     }
 }

@@ -45,7 +45,7 @@ document.getElementById('annee').innerHTML = date;
 
 //////////anime Index
 let animpc = document.querySelector('.sect01__txt');
-if  ((window.matchMedia('(min-width: 1000px)').matches) && (animpc)) {
+if  ((animpc)) {
       
       gsap.from('.sect01__txt', { 
         duration: 1.5,
@@ -182,11 +182,11 @@ const sliderTransition = document.querySelector(".slider__transition"); // couch
 let currentSound = null;
 
 const sectionSounds = {
-  content1: document.getElementById("sound-chien"),
-  content2: document.getElementById("sound-chat"),
-  content11: document.getElementById("sound-souris"),
-  content18: document.getElementById("sound-oiseau"),
-  content21: document.getElementById("sound-catpurr")
+  chien: document.getElementById("sound-chien"),
+  twocats: document.getElementById("sound-chat"),
+  Game03: document.getElementById("sound-souris"),
+  Game07: document.getElementById("sound-oiseau"),
+  content37: document.getElementById("sound-catpurr")
 };
 
 for (let button of buttons) {
@@ -236,8 +236,8 @@ for (let button of buttons) {
 
 // --- Fonction animateSection
 function animateSection(tabId) {
-  if (tabId === "content2") {
-    const illu = document.querySelector("#content2 .chat--trait");
+  if (tabId === "twocats") {
+    const illu = document.querySelector("#twocats .chat--trait");
     const illuchat = document.querySelector(".chats02");
     if (illu) {
       gsap.set(illu, { x: 0, opacity: 1 });
@@ -256,8 +256,8 @@ function animateSection(tabId) {
       });
     }
   }
-  else if (tabId === "content1") {
-    const illu = document.querySelector("#content1 .illustration__chien");
+  else if (tabId === "chien") {
+    const illu = document.querySelector("#chien .illustration__chien");
     if (illu) {
       gsap.set(illu, { x: 0, opacity: 1 });
       gsap.to(illu, {
@@ -277,6 +277,25 @@ let btnMouse = document.querySelector(".mouse__btn");
 let btnOiseau = document.querySelector(".oiseau__btn");
 
  if  ((btnMouse)) {
+
+  // GESTION GLOBALE DES INDICES
+document.querySelectorAll('.indice__close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        // On récupère le parent ".indice" du bouton cliqué
+        const parentIndice = e.target.closest('.indice');
+        
+        // Animation de sortie avec GSAP
+        gsap.to(parentIndice, { 
+            autoAlpha: 0, 
+            scale: 0.8, 
+            duration: 0.3, 
+            ease: "power2.in",
+            onComplete: () => {
+                parentIndice.style.display = 'none';
+            }
+        });
+    });
+});
                 
 
     gsap.registerPlugin(MotionPathPlugin);
@@ -426,176 +445,318 @@ kimiSalon.addEventListener("click", (e) =>{
 })       
 }
 
-let puzzle = document.querySelector("#puzzle-container");
 
-if  ((puzzle)) {
+const puzzle = document.querySelector("#puzzle-container");
+
+if (puzzle) {
+  gsap.registerPlugin(Draggable);
 
   const palette = document.querySelector(".palette");
-const pieces = document.querySelectorAll(".palette .piece");
-const activePieceZone = document.querySelector(".piece__active");
-const openPaletteBtn = document.getElementById("palette__open");
+  const pieces = document.querySelectorAll(".palette .piece");
+  const activeZone = document.querySelector(".piece__active");
+  const slots = document.querySelectorAll(".slot");
+  const openBtn = document.getElementById("palette__open");
+  const successDialogue = document.querySelector(".dialogue__game--puzzle");
 
-let currentPiece = null;
-
-// -------------------------
-// Sélection d’une pièce
-pieces.forEach(piece => {
-  piece.addEventListener("click", () => {
-    selectPiece(piece);
-  });
-});
-
-function selectPiece(piece) {
-  // S'il y a déjà une pièce active → retour palette
-  if (currentPiece) {
-    resetCurrentPiece();
-  }
-
-  // Nouvelle pièce active
-  currentPiece = piece;
-
-  // On clone la pièce pour la zone active
-  const clone = piece.cloneNode(true);
-  clone.classList.add("piece__active");
-
-  activePieceZone.appendChild(clone);
-  enableDrag(clone);
-
-
-  // On cache la palette
-  closePalette();
-}
-
-/////rendre la pièce draggabl
-function enableDrag(piece) {
-  gsap.set(piece, { x: 0, y: 0 });
-
-  Draggable.create(piece, {
-    type: "x,y",
-    edgeResistance: 0.65,
-    bounds: ".game-viewport",
-    onDragEnd: () => {
-      checkSnap(piece);
-    }
-  });
-}
-
-// -------------------------
-// Réinitialiser la pièce active
-function resetCurrentPiece() {
-  activePieceZone.innerHTML = "";
-  currentPiece = null;
-}
-
-// -------------------------
-// Palette open / close
+  let currentPiece = null;
+  let placedCount = 0;
+  const TOTAL = 6;
   let paletteAnimating = false;
 
-function closePalette() {
-  if (paletteAnimating) return;
-  paletteAnimating = true;
+  /* --- Palette --- */
+  function closePalette() {
+    if (paletteAnimating || !palette) return;
+    paletteAnimating = true;
+    gsap.to(palette, { y: "110%", duration: 0.4, ease: "power3.out", onComplete: () => paletteAnimating = false });
+  }
 
-  gsap.to(palette, {
-    y: "110%",
-    duration: 0.5,
-    ease: "power3.inOut",
-    onComplete: () => {
-      paletteAnimating = false;
-      palette.classList.add("palette__closed");
-    }
+  function openPalette() {
+    if (paletteAnimating || !palette) return;
+    paletteAnimating = true;
+    gsap.to(palette, { y: "0%", duration: 0.4, ease: "power3.out", onComplete: () => paletteAnimating = false });
+  }
+
+  if (openBtn) {
+    openBtn.addEventListener("click", () => {
+      resetCurrentPiece();
+      openPalette();
+    });
+  }
+
+  /* --- Sélection --- */
+  pieces.forEach(piece => {
+    piece.addEventListener("click", () => {
+      if (!piece.classList.contains("piece__used")) {
+        selectPiece(piece);
+      }
+    });
   });
-}
 
-function openPalette() {
-  if (paletteAnimating) return;
-  paletteAnimating = true;
+  function selectPiece(piece) {
+    resetCurrentPiece();
 
-  palette.classList.remove("palette__closed");
+    const clone = piece.cloneNode(true);
+    clone.classList.add("is-dragging"); // Optionnel: pour le style
+    
+    // CORRECTION 1: On lie explicitement le clone à l'index de l'original
+    clone.dataset.piece = piece.dataset.piece; 
+    piece.classList.add("piece__current");
+    
+    activeZone.appendChild(clone);
+    currentPiece = clone;
 
-  gsap.fromTo(
-    palette,
-    { y: "110%" },
-    {
-      y: "0%",
-      duration: 0.5,
-      ease: "power3.inOut",
-      onComplete: () => {
-        paletteAnimating = false;
+    enableDrag(clone);
+    closePalette();
+  }
+
+  function resetCurrentPiece() {
+    // CORRECTION 2: On tue les instances Draggable avant de vider le HTML pour éviter les fuites mémoire
+    if (currentPiece) {
+      const draggables = Draggable.get(currentPiece);
+      if (draggables) draggables.kill();
+    }
+    activeZone.innerHTML = "";
+    currentPiece = null;
+    pieces.forEach(p => p.classList.remove("piece__current"));
+  }
+
+  /* --- Drag --- */
+  function enableDrag(piece) {
+    Draggable.create(piece, {
+      type: "x,y",
+      bounds: ".game-viewport", // Assurez-vous que cette classe existe dans votre HTML
+      onDragEnd: function() {
+        checkSnap(this.target);
+      }
+    });
+  }
+
+  /* --- Snap --- */
+  function checkSnap(piece) {
+  const value = piece.dataset.piece;
+  let snapped = false;
+
+  slots.forEach((slot) => {
+    // 1. On vérifie d'abord si c'est le BON slot (logique interne)
+    if (slot.dataset.slot === value) {
+      
+      // 2. On utilise hitTest au moment du relâchement
+      // "pointer" : le snap se déclenche si le CURSEUR est au-dessus du slot
+      // C'est très intuitif car l'humain regarde où est sa souris/doigt
+      if (Draggable.hitTest(piece, slot, "pointer")) {
+        snapped = true;
+        snapPiece(piece, slot);
       }
     }
-  );
+  });
+
+  if (!snapped) {
+    // Retour à la case départ si on lâche au mauvais endroit
+    gsap.to(piece, { x: 0, y: 0, duration: 0.3 });
+  }
 }
-    
- openPaletteBtn.addEventListener("click", openPalette);
 
+  function snapPiece(piece, slot) {
+    const p = piece.getBoundingClientRect();
+    const s = slot.getBoundingClientRect();
 
+    const dx = (s.left + s.width / 2) - (p.left + p.width / 2);
+    const dy = (s.top + s.height / 2) - (p.top + p.height / 2);
 
+    gsap.to(piece, {
+        x: piece._gsap.x + dx,
+        y: piece._gsap.y + dy,
+        duration: 0.3,
+        onComplete: () => {
+            // 1. Animation de disparition simultanée (Pièce + Slot)
+            // On utilise un petit effet de scale pour rendre la disparition plus fluide
+            gsap.to([piece, slot], {
+                opacity: 0,
+                scale: 0.9,
+                duration: 0.4,
+                ease: "power2.in",
+                onComplete: () => {
+                    // On les cache totalement pour qu'ils ne bloquent plus les clics
+                    piece.style.display = "none";
+                    slot.style.visibility = "hidden";
+                    
+                    // 2. Mise à jour des compteurs
+                    placedCount++;
+                    currentPiece = null;
 
-  /*//PUZZLE PHASER
-  function create() {
-  const { width, height } = this.scale;
+                    // 3. Logique d'ouverture de la palette ou victoire
+                    if (placedCount < TOTAL) {
+                        // On réouvre la palette automatiquement pour la pièce suivante
+                        openPalette(); 
+                    } else {
+                        checkWin(); 
+                    }
+                }
+            });
 
-  // =========================
-  // 1️⃣ Données des pièces (positions RELATIVES)
-  // =========================
-  const piecesData = [
-    { cropX: 0,   cropY: 0,   w: 200, h: 200, tx: 0.35, ty: 0.3 },
-    { cropX: 200, cropY: 0,   w: 200, h: 200, tx: 0.55, ty: 0.3 },
-    { cropX: 0,   cropY: 200, w: 400, h: 200, tx: 0.45, ty: 0.65 }
-  ];
+            // 4. Gestion de la pièce d'origine dans la palette
+            const targetValue = piece.dataset.piece;
+            pieces.forEach(p => {
+                if (p.dataset.piece === targetValue) {
+                    p.classList.add("piece__used");
+                    p.style.pointerEvents = "none";
+                    p.style.opacity = 0; // On la cache aussi dans la palette
+                }
+            });
+        }
+    });
+}
+  function checkWin() {
+  if (placedCount === TOTAL) {
+    console.log("Puzzle terminé");
 
-  // =========================
-  // 2️⃣ Création des pièces
-  // =========================
-  piecesData.forEach((data) => {
-    const piece = this.add.image(
-      Phaser.Math.Between(50, width - 50),
-      Phaser.Math.Between(50, height - 50),
-      "puzzle"
-    );
-
-    piece.setCrop(data.cropX, data.cropY, data.w, data.h);
-    piece.setInteractive({ draggable: true });
-
-    // position cible responsive
-    piece.targetX = width * data.tx;
-    piece.targetY = height * data.ty;
-  });
-
-  // =========================
-  // 3️⃣ Drag (UNE seule fois)
-  // =========================
-  this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-    gameObject.x = dragX;
-    gameObject.y = dragY;
-  });
-
-  // =========================
-  //  Snap au bon endroit
-  // =========================
-  this.input.on("dragend", (pointer, gameObject) => {
-    const dist = Phaser.Math.Distance.Between(
-      gameObject.x,
-      gameObject.y,
-      gameObject.targetX,
-      gameObject.targetY
-    );
-
-    if (dist < 40) {
-      gameObject.disableInteractive();
-
-      gsap.to(gameObject, {
-        x: gameObject.targetX,
-        y: gameObject.targetY,
-        duration: 0.4,
-        ease: "back.out(1.4)"
-      });
+    // Désactive le bouton d'ouverture de la palette
+    if (openBtn) {
+      gsap.to(openBtn, { autoAlpha: 0, duration: 0.3 });
     }
-  });
+
+    // Affiche et anime votre div de dialogue
+    if (successDialogue) {
+      // On retire la classe hidden (assurez-vous que .hidden ne force pas un display:none !important)
+      successDialogue.classList.remove("hidden");
+
+      // Animation d'apparition fluide avec GSAP
+      gsap.fromTo(successDialogue, 
+        { 
+          opacity: 0, 
+          y: 20 
+        }, 
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.6, 
+          ease: "power2.out",
+          clearProps: "all" // Nettoie les styles inline après l'animation
+        }
+      );
+    }
+  }
 }
-*/
 
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const colorContainer = document.querySelector("#color-container");
+
+    if (colorContainer) {
+        // --- 1. VARIABLES ET ÉTATS ---
+        let selectedColor = null; 
+        const paintedAreas = new Set();
+
+        const btnOpenPalette = document.querySelector('#palette__open--color');
+        const paletteElement = document.querySelector('.palette__color'); // Ta div palette
+        const btnValidate = document.querySelector('#color__fin');
+        const btnFleche = document.querySelector('#color__wow');
+        
+        const diagFelicitation = document.querySelector('.dialogue__game--color02');
+        const diagAnecdote = document.querySelector('.dialogue__game--color03');
+        const shapes = colorContainer.querySelectorAll('.cls-1, .cls-2, .cls-3');
+
+        // --- 2. FONCTIONS DE LA PALETTE (OUVRIR / FERMER) ---
+
+        const openPalette = () => {
+            gsap.to(paletteElement, { 
+                autoAlpha: 1, y: 0, duration: 0.4, display: 'flex', ease: "power2.out" 
+            });
+        };
+
+        const closePalette = () => {
+            gsap.to(paletteElement, { 
+                autoAlpha: 0, y: 20, duration: 0.3, display: 'none', ease: "power2.in" 
+            });
+        };
+
+        if (btnOpenPalette) {
+            btnOpenPalette.addEventListener('click', openPalette);
+        }
+
+        // --- 3. SÉLECTION DES COULEURS ---
+        document.querySelectorAll('.color').forEach(div => {
+            div.addEventListener('click', () => {
+                selectedColor = div.getAttribute('data-color');
+                
+                // Feedback visuel sur les pastilles
+                gsap.to(".color", { scale: 1, border: "2px solid white" });
+                gsap.to(div, { scale: 1.2, border: "2px solid #000", duration: 0.2 });
+
+                // Fermer la palette après sélection
+                closePalette();
+            });
+        });
+
+        // --- 4. LOGIQUE DE COLORIAGE ---
+        shapes.forEach(shape => {
+            shape.style.cursor = "pointer";
+            shape.addEventListener('click', (e) => {
+                if (selectedColor) {
+                    // Application de la couleur (Style Inline pour priorité max)
+                    gsap.set(e.target, { fill: selectedColor });
+                    
+                    paintedAreas.add(e.target);
+                    
+                    // Vérification du quota (5 formes)
+                    if (paintedAreas.size >= 5 && btnValidate) {
+                        btnValidate.disabled = false;
+                        btnValidate.classList.remove('is-disabled');
+                        // Apparition du bouton "J'ai fini"
+                        gsap.to(btnValidate, { autoAlpha: 1, scale: 1, y: 0, duration: 0.6 });
+                    }
+                } else {
+                    // Si pas de couleur, on ouvre la palette
+                    openPalette();
+                    gsap.to(paletteElement, { x: 10, duration: 0.1, repeat: 3, yoyo: true });
+                }
+            });
+        });
+
+        // --- 5. TRANSITIONS (LES BOUTONS UTILES) ---
+
+        // BOUTON : "J'AI FINI"
+        if (btnValidate) {
+            btnValidate.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation(); // Évite les conflits
+
+                // On cache la palette et l'indice pour de bon
+                gsap.to([paletteElement, ".indice__color", btnOpenPalette], { 
+                    autoAlpha: 0, y: 30, duration: 0.5,
+                    onComplete: () => {
+                        // On affiche "Quel beau coloriage !"
+                        diagFelicitation.classList.remove('hidden');
+                        gsap.fromTo(diagFelicitation, 
+                            { autoAlpha: 0, y: 20 }, 
+                            { autoAlpha: 1, y: 0, display: 'block', duration: 0.6 }
+                        );
+                    }
+                });
+            });
+        }
+
+        // BOUTON : LA FLÈCHE (Vers l'anecdote)
+        if (btnFleche) {
+            btnFleche.addEventListener('click', () => {
+                gsap.to(diagFelicitation, { 
+                    autoAlpha: 0, y: -10, duration: 0.4, 
+                    onComplete: () => {
+                        diagFelicitation.classList.add('hidden');
+                        diagAnecdote.classList.remove('hidden');
+                        // On affiche l'anecdote finale
+                        gsap.fromTo(diagAnecdote, 
+                            { autoAlpha: 0, y: 20 }, 
+                            { autoAlpha: 1, y: 0, display: 'block', duration: 0.6 }
+                        );
+                    }
+                });
+            });
+        }
+    }
+});
 
 const miamPoup = document.querySelector("#miamPoup-container");
 
@@ -612,13 +773,13 @@ function initMiamGame(containerId, characterKey) {
     preload() {
       this.load.image('bonbon', 'assets/images/bonbon.png');
 
-      this.load.image('poupee', 'assets/images/Poupee.png');
-      this.load.image('poupee-happy', 'assets/images/Poupee-happy.png');
-      this.load.image('poupee-triste', 'assets/images/Poupee-triste.png');
+      this.load.image('poupee', 'assets/images/poupeeDeboutV2.png');
+      this.load.image('poupee-happy', 'assets/images/poupeeDebout.png');
+      this.load.image('poupee-triste', 'assets/images/poupeeDeboutV3.png');
 
-      this.load.image('mimi', 'assets/images/Kimi.png');
-      this.load.image('mimi-happy', 'assets/images/mimi-happy.png');
-      this.load.image('mimi-triste', 'assets/images/mimi-triste.png');
+      this.load.image('mimi', 'assets/images/kimiDeboutV1.png');
+      this.load.image('mimi-happy', 'assets/images/kimiDeboutV2.png');
+      this.load.image('mimi-triste', 'assets/images/kimiDeboutV3.png');
     }
 
     create() {
@@ -627,13 +788,13 @@ function initMiamGame(containerId, characterKey) {
 
       this.character = this.physics.add.image(
         width * 0.15,
-        height - 120,
+        height - 300,
         this.characterKey
       )
         .setScale(0.4)
         .setCollideWorldBounds(true);
 
-      this.character.body.setCircle(120);
+      this.character.body.setCircle(190);
 
       this.character.setInteractive({ draggable: true });
       this.input.on('drag', (pointer, obj, dragX) => obj.setX(dragX));
@@ -652,7 +813,7 @@ function initMiamGame(containerId, characterKey) {
       this.scoreText = container.querySelector('#score');
       if (this.scoreText) this.scoreText.textContent = '0/10';
 
-      // 🔹 Choix de la div de victoire selon le personnage
+      // Choix de la div de victoire selon le personnage
       if (this.characterKey === 'poupee') {
         this.winDialog = document.querySelector('.dialogue__game');
       } else if (this.characterKey === 'mimi') {
@@ -663,7 +824,7 @@ function initMiamGame(containerId, characterKey) {
     }
 
     update() {
-      if (this.bonbon.y > this.scale.height + 50) {
+      if (this.bonbon.y > this.scale.height + 5) {
         this.missBonbon();
       }
     }
@@ -697,12 +858,27 @@ function initMiamGame(containerId, characterKey) {
         this.character.setTexture(this.characterKey);
       });
 
-      // 🎉 Affiche la bonne div de victoire
+      // Affiche la bonne div de victoire
       if (this.score === 10 && this.winDialog && !this.winShown) {
-        this.scene.pause();
-        this.winDialog.classList.remove('hidden');
-        this.winShown = true;
-        return;
+          this.scene.pause();
+          this.winDialog.classList.remove('hidden');
+
+          gsap.fromTo(this.winDialog, 
+          { 
+            opacity: 0, 
+            y: 20 
+          }, 
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.6, 
+            ease: "power2.out",
+            clearProps: "all" 
+          }
+          );
+
+          this.winShown = true;
+          return;
       }
 
       this.resetBonbon();

@@ -1,0 +1,131 @@
+@media only screen and (min-width:600px) {
+
+    #Game09 {
+        position: relative;
+        background-color: $c-text;
+        padding: 1px;
+    }
+
+    #color-container {
+        position: relative;
+        width: 100%;
+
+        margin: 0 auto;
+
+        svg {
+
+
+
+            .area {
+                cursor: pointer;
+                transition: fill 0.3s ease;
+            }
+        }
+    }
+
+    .palette__color {
+        z-index: 100;
+        display: flex;
+        gap: 12px;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        justify-content: center;
+
+        &__closed {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+    }
+
+    .btn__palette {
+        position: absolute;
+        top: $txtmob;
+        left: $txtmob;
+        z-index: 900;
+
+
+    }
+
+    .color__btn {
+        // Tes styles de base (bordures, arrondis...)
+        transition: all 0.5s ease; // Transition douce pour l'apparition
+
+        &.is-disabled {
+            opacity: 0; // Complètement transparent
+            pointer-events: none; // Impossible de cliquer dessus
+            transform: translateY(10px); // Optionnel : petit décalage vers le bas
+        }
+
+        &:not(.is-disabled) {
+            opacity: 1; // Devient visible
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    }
+
+
+    .color {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid $c-text;
+
+        transition: transform 0.2s ease;
+
+        &__btn {
+            margin-left: $h1pc;
+        }
+
+
+        &:hover {
+            transform: scale(1.15);
+        }
+
+        &--blanc {
+            background-color: $c-text;
+        }
+
+        &--noir {
+            background-color: $c-bg;
+        }
+
+        &--orange {
+            background-color: $c-colorun;
+        }
+
+        &--rose {
+            background-color: $c-colordx;
+        }
+
+        &--vert {
+            background-color: #025629;
+
+        }
+
+        &--rouge {
+            background-color: #4d101f;
+
+        }
+
+        &--violet {
+            background-color: #9585bd;
+
+        }
+
+        &--jaune {
+            background-color: #f7d670;
+
+        }
+
+        &--bleu {
+            background-color: #dff2ff;
+
+        }
+
+
+    }
+
+
+}
